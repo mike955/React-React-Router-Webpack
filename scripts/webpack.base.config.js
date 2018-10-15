@@ -18,13 +18,38 @@ module.exports = {
 		path: path.resolve(__dirname, '../dist')
 	},
     module: {
-        rules: [{
-            test: /\.js[x]?$/,
-            exclude: /node_modules/,
-            use: {
-                loader: 'babel-loader'
+        rules: [
+            {
+                test: /\.js[x]?$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            "@babel/preset-env", 
+                            "@babel/preset-react"
+                        ],
+                        plugins: [
+                        [
+                            "import", {
+                                "libraryName": "antd",
+                                "libraryDirectory": "es",
+                                "style": "scss" 
+                            }
+                        ] 
+                        ]
+                    }
+                }
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    "style-loader", // creates style nodes from JS strings
+                    "css-loader", // translates CSS into CommonJS
+                    "sass-loader" // compiles Sass to CSS, using Node Sass by default
+                ]
             }
-        }]
+        ]
     },
     plugins: [
         new HtmlWebpackPlugin({

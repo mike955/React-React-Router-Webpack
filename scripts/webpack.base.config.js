@@ -16,12 +16,20 @@ module.exports = {
 	output: {
 		filename: '[name].js',
 		path: path.resolve(__dirname, '../dist')
-	},
+    },
+    resolve: {
+        extensions: ['.js', '.json'],
+        alias: {
+            '@app': path.join(__dirname, '../app'),
+            '@apis': path.join(__dirname, '../app/apis')
+        }
+    },
     module: {
         rules: [
             {
                 test: /\.js[x]?$/,
                 exclude: /node_modules/,
+                include: [resolve('../src')],
                 use: {
                     loader: 'babel-loader',
                     options: {
@@ -30,23 +38,25 @@ module.exports = {
                             "@babel/preset-react"
                         ],
                         plugins: [
-                        [
-                            "import", {
-                                "libraryName": "antd",
-                                "libraryDirectory": "es",
-                                "style": "scss" 
-                            }
-                        ] 
+                            "@babel/plugin-transform-runtime",
+                            [
+                                "import", {
+                                    "libraryName": "antd",
+                                    "libraryDirectory": "es",
+                                    "style": "css"
+                                }
+                            ] 
                         ]
                     }
                 }
             },
             {
-                test: /\.scss$/,
+                test: /\.(scss|less|css)$/,
                 use: [
                     "style-loader", // creates style nodes from JS strings
                     "css-loader", // translates CSS into CommonJS
-                    "sass-loader" // compiles Sass to CSS, using Node Sass by default
+                    "sass-loader", // compiles Sass to CSS, using Node Sass by default
+                    "less-loader" 
                 ]
             }
         ]

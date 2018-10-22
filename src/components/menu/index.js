@@ -10,11 +10,16 @@ export default class SuperMenu extends Component {
 
     constructor(props){
         super(props);
-        this.setState = {
-            listData: props.data
+        this.state = {
+            listData: this.props.data
         }
+
+        this.recursion = this.recursion.bind(this);
     }
 
+    // shouldComponentUpdate(){
+    //     return true
+    // }
     recursion(data){
         return (
             data.map((val, key) => {
@@ -41,7 +46,7 @@ export default class SuperMenu extends Component {
                 defaultOpenKeys={['sub1']}
                 mode="inline"
             >
-                {this.recursion(this.setState.listData)}
+                {this.recursion(this.props.data)}
             </Menu>
         )
     }

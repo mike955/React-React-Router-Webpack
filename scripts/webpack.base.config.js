@@ -18,12 +18,13 @@ module.exports = {
 		path: path.resolve(__dirname, '../dist')
     },
     resolve: {
-        extensions: ['.js', '.json'],
+        extensions: ['.js', '.json', '.ts'],
         alias: {
             '@app': path.join(__dirname, '../app'),
             '@apis': path.join(__dirname, '../app/apis')
         }
     },
+    // externals: ['axios'],
     module: {
         rules: [
             {
@@ -76,5 +77,8 @@ module.exports = {
         hot: false,
         host: '0.0.0.0',
         port: PORT,
+        proxy: {
+            '/': "http://127.0.0.1:3000"
+        }
     }
 }

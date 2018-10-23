@@ -30,7 +30,7 @@ export default class SuperMenu extends Component {
                         </SubMenu>
                     )
                 }else{
-                    return <Menu.Item key={val.key}>{val.val}</Menu.Item>
+                    return <Menu.Item key={val.key} onClick={this.props.getMarkdownContent.bind(self,val.key)}>{val.val}</Menu.Item>
                 }
             })
         )

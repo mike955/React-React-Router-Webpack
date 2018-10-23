@@ -68,32 +68,26 @@ class App extends React.Component {
     // ],
     markdownVal: '# This is a header\n\nAnd this is a paragraph'
     };
+    this.getMarkdownContent = this.getMarkdownContent.bind(this)
   }
 
   componentDidMount() {
-        // fetch('http://localhost:3000/get/all/catagory')
-        // .then((response) => {
-        //     return response.json()
-        // })
-        // .then((data) => {
-        //     console.log(data)
-        //     this.setState({data: data});
-        //     console.log(this.state.data)
-        // })
-        // .catch(err => {
-        //     console.log(err)
-        // })
-
         axios.post('/get/all/catagory')
-                .then(res => {
-                  // console.log(res)
-                  // console.log(this.state.data)
-                  this.setState({data: res.data});
-                  // console.log(this.state.data)
-                })
-                .catch( error => {
-                    console.log(error)
-                })
+          .then(res => {
+            this.setState({data: res.data});
+          })
+          .catch( error => {
+              console.log(error)
+          })
+  }
+
+  getMarkdownContent(key){
+    let url = '/' + key.replace(/_/g, '/');
+    axios.post(url)
+      .then(res => {
+        this.setState({markdownVal: `${res.data}`})
+      })
+      .catch(error => console.log(error))
   }
 
   render() {
@@ -106,12 +100,12 @@ class App extends React.Component {
             paddingTop: 60,
             paddingLeft: 20,
             width: 300,
-            position: "fixed",
+          position: "fixed",
             left: 0
           }}
         >
           <div className="logo" />
-          <SuperMenu data={this.state.data} />
+          <SuperMenu data={this.state.data} getMarkdownContent={this.getMarkdownContent} />
         </Sider>
         <Layout style={{ marginLeft: 200 }}>
           <Header
